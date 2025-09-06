@@ -1,6 +1,6 @@
 import {genkit, z} from 'genkit';
 import {googleAI} from '@genkit-ai/google-genai';
-import {startFlowServer} from '@genkit-ai/express';
+import {startFlowServer, withContextProvider} from '@genkit-ai/express';
 import {Article, ArticleSchema, Summary, SummarySchema} from './types';
 import {
   addArticle,
@@ -12,11 +12,14 @@ import {
 import {credential} from "firebase-admin";
 import {initializeApp} from 'firebase-admin/app';
 import {getFirestore} from "firebase-admin/firestore";
+import {getAuth} from "firebase-admin/auth";
 import {configDotenv} from 'dotenv';
+import {apiKey} from "genkit/context";
 
 // ----------------------------------------- Initializations
 const app = initializeApp({credential: credential.cert("./firebase-creds.json"),});
 const firestore = getFirestore(app);
+const auth = getAuth(app);
 
 // ----------------------------------------- Configurations
 configDotenv()
@@ -80,7 +83,22 @@ const summarizeArticleFlow = ai.defineFlow(
     inputSchema: z.object({userId: z.string(), url: z.string()}),
     outputSchema: ArticleSchema.or(z.object({error: z.string()})),
   },
-  async (input) => {
+  async (input, {context}) => {
+
+    // Authentication
+    const authHeader = context?.auth?.apiKey || "";
+    const token = authHeader.startsWith("Bearer ") ? authHeader.split(" ")[1] : null;
+
+    if (!token) {
+      return { error: "Unauthorized to access agent!" }
+    }
+
+    try {
+      await auth.verifyIdToken(token);
+    } catch (err) {
+      return { error: "Invalid or expired token" }
+    }
+
     // Check if there's summarization allowed
     const userDetails = await getSummarizationSettings(firestore, input.userId);
     if (userDetails.summarizationsLeft == 0) {
@@ -122,4 +140,7 @@ const summarizeArticleFlow = ai.defineFlow(
   },
 );
 
-startFlowServer({flows: [summarizeArticleFlow], cors: {origin: "https://sixqs.belfodil.me"}});
+startFlowServer({
+  flows: [withContextProvider(summarizeArticleFlow, apiKey())],
+  cors: {origin: "https://sixqs.belfodil.me"}
+});

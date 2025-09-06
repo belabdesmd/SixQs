@@ -35,10 +35,7 @@ export class AuthService {
       let userCreds = await createUserWithEmailAndPassword(this.auth, email, password);
       await setDoc(doc(this.db, "users", userCreds.user.uid), {summarizationsLeft: 5});
       await sendEmailVerification(userCreds.user);
-      await this.dataStorageService.saveAccount({
-        userId: userCreds.user.uid,
-        summarizationsLeft: 5
-      });
+      await this.dataStorageService.saveAccount({userId: userCreds.user.uid, summarizationsLeft: 5});
       return {authenticated: true}
     } catch (e: any) {
       return {authenticated: false, error: e.message};
@@ -97,5 +94,9 @@ export class AuthService {
 
   async getUserId() {
     return this.auth.currentUser?.uid!
+  }
+
+  async getIdToken() {
+    return this.auth.currentUser?.getIdToken()!
   }
 }

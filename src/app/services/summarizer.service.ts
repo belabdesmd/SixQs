@@ -34,6 +34,10 @@ export class SummarizerService {
     try {
       const response = await runFlow({
         url: 'https://sixqs-api.belfodil.me/', // Replace with your deployed flow's URL
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${await this.authService.getIdToken()}`
+        },
         input: {userId: await this.authService.getUserId(), url: url},
       });
       if (response.error) return {error: response.error}
