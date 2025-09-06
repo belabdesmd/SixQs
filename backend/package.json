@@ -1,0 +1,25 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "main": "lib/index.js",
+  "scripts": {
+    "start": "node --watch lib/index.js",
+    "build": "tsc",
+    "genkit": "genkit start -- npm run start"
+  },
+  "engines": {
+    "node": "22"
+  },
+  "dependencies": {
+    "@genkit-ai/express": "^1.18.0",
+    "@genkit-ai/google-genai": "^1.18.0",
+    "dotenv": "^17.2.2",
+    "firebase-admin": "^13.5.0",
+    "genkit": "^1.18.0"
+  },
+  "devDependencies": {
+    "tsx": "^4.20.5",
+    "typescript": "^5.9.2"
+  },
+  "private": true
+}
