@@ -1,0 +1,32 @@
+@use '@angular/material' as mat;
+@use '@angular/cdk' as cdk;
+@use "./themes/theme-colors";
+
+@include mat.core();
+@include cdk.overlay();
+
+
+@include mat.elevation-classes();
+@include mat.app-background();
+@include mat.typography-hierarchy(mat.define-theme((typography: (use-system-variables: true, system-variables-prefix: mat-sys))));
+
+:root {
+  @include mat.theme((color: (primary: theme-colors.$primary-palette), typography: Roboto, density: 0,));
+}
+
+html,
+body {
+  height: 100%;
+  color-scheme: dark;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  width: 100%;
+}
+
+* {
+  scrollbar-width: auto;
+  scrollbar-color: var(--mat-sys-outline-variant) var(--mat-sys-outline);
+}
