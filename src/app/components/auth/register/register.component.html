@@ -1,1 +1,63 @@
-<p>register works!</p>
+<div class="register-container">
+  <h1 class="logo">SixQs</h1>
+  <form [formGroup]="registerForm!!" (ngSubmit)="onSubmit()">
+    <!-- Email Input -->
+    <mat-form-field subscriptSizing="dynamic" appearance="outline">
+      <mat-label>Email</mat-label>
+      <input matInput type="email" class="mat-body-medium" placeholder="Enter your email address"
+             formControlName="email" required/>
+      @if (registerForm?.touched && registerForm!!.hasError('required', 'email')) {
+        <mat-error class="mat-body-medium">Please enter your email address.</mat-error>
+      }
+      @if (registerForm?.touched && registerForm!!.hasError('email', 'email')) {
+        <mat-error class="mat-body-medium">The email you provided is not valid.</mat-error>
+      }
+    </mat-form-field>
+
+    <!-- Password Input -->
+    <mat-form-field subscriptSizing="dynamic" appearance="outline">
+      <mat-label>Password</mat-label>
+      <input matInput [type]="hidePassword ? 'password' : 'text'" class="mat-body-medium"
+             placeholder="Enter a strong password" formControlName="password" required/>
+      <button class="password-visibility" type="button" mat-icon-button matSuffix
+              (click)="togglePasswordVisibility($event)"
+              [attr.aria-label]="'Toggle password visibility'" [attr.aria-pressed]="!hidePassword">
+        <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+      </button>
+      @if (registerForm?.touched && registerForm!!.hasError('required', 'password')) {
+        <mat-error class="mat-body-medium">Please enter your password.</mat-error>
+      }
+      @if (registerForm?.touched && registerForm!!.hasError('minLength', 'password')) {
+        <mat-error class="mat-body-medium">Your password must be a minimum of 6 characters.</mat-error>
+      }
+    </mat-form-field>
+
+
+    <!-- Confirm Password Input -->
+    <mat-form-field subscriptSizing="dynamic" appearance="outline">
+      <mat-label>Confirm Password</mat-label>
+      <input matInput [type]="hidePassword ? 'password' : 'text'" class="mat-body-medium"
+             placeholder="Re-enter the password"
+             formControlName="confirmPassword" required/>
+      <button class="password-visibility" type="button" mat-icon-button matSuffix
+              (click)="togglePasswordVisibility($event)"
+              [attr.aria-label]="'Toggle password visibility'" [attr.aria-pressed]="!hidePassword">
+        <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+      </button>
+      @if (registerForm?.touched && registerForm!!.hasError('passwordNoMatch', 'confirmPassword')) {
+        <mat-error class="mat-body-medium">Passwords do not match.</mat-error>
+      }
+    </mat-form-field>
+
+    <!-- Register Button -->
+    <button class="register" mat-flat-button [disabled]="registerLoading" type="submit">
+      @if (registerLoading) {
+        <mat-spinner [diameter]="24" [color]="'#111413'"></mat-spinner>
+      }
+      @if (!registerLoading) {
+        <span class="mat-label-large">Register</span>
+      }
+    </button>
+  </form>
+  <p>Already have an Account?, <a routerLink="/login">Login</a></p>
+</div>

@@ -1,1 +1,47 @@
-<p>login works!</p>
+<div class="login-container">
+  <h1 class="logo">SixQs</h1>
+  <form [formGroup]="loginForm!!" (ngSubmit)="onSubmit()">
+    <!-- Email Input -->
+    <mat-form-field subscriptSizing="dynamic" appearance="outline">
+      <mat-label>Email</mat-label>
+      <input matInput type="email" class="mat-body-medium" placeholder="Enter your email address"
+             formControlName="email" required/>
+      @if (loginForm?.touched && loginForm!!.hasError('required', 'email')) {
+        <mat-error class="mat-body-medium">Please enter your email address.</mat-error>
+      }
+      @if (loginForm?.touched && loginForm!!.hasError('email', 'email')) {
+        <mat-error class="mat-body-medium">The email you provided is not valid.</mat-error>
+      }
+    </mat-form-field>
+
+    <!-- Password Input -->
+    <mat-form-field subscriptSizing="dynamic" appearance="outline">
+      <mat-label>Password</mat-label>
+      <input matInput [type]="hidePassword ? 'password' : 'text'" class="mat-body-medium"
+             placeholder="Enter a strong password" formControlName="password" required/>
+      <button class="password-visibility" type="button" mat-icon-button matSuffix
+              (click)="togglePasswordVisibility($event)" [attr.aria-label]="'Toggle password visibility'"
+              [attr.aria-pressed]="!hidePassword">
+        <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+      </button>
+      @if (loginForm?.touched && loginForm!!.hasError('required', 'password')) {
+        <mat-error class="mat-body-medium">Please enter your password.</mat-error>
+      }
+      @if (loginForm?.touched && loginForm!!.hasError('minLength', 'password')) {
+        <mat-error class="mat-body-medium">Your password must be a minimum of 6 characters.</mat-error>
+      }
+    </mat-form-field>
+    <p class="reset-password" (click)="resetPassword()">Forgot Password?</p>
+
+    <!-- Login Button -->
+    <button mat-flat-button class="login" [disabled]="loginLoading" type="submit">
+      @if (loginLoading) {
+        <mat-spinner [diameter]="24" [color]="'#111413'"></mat-spinner>
+      }
+      @if (!loginLoading) {
+        <span class="mat-label-large">Login</span>
+      }
+    </button>
+  </form>
+  <p>New to the The5Ws1H?, <a routerLink="/register">Register</a></p>
+</div>
