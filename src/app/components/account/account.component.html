@@ -1,1 +1,49 @@
-<p>account works!</p>
+<div class="container">
+  <mat-toolbar>
+    <button id="back" mat-mini-fab (click)="goBack()">
+      <mat-icon>keyboard_arrow_left</mat-icon>
+    </button>
+    <h2>Account</h2>
+  </mat-toolbar>
+  <div class="settings-container">
+    <div class="single_setting">
+      <div class="action-texts">
+        <div class="action-title">Change Password</div>
+        <div class="action-subtitle">Last update was
+          <span class="highlighted">{{ accountDetails?.lastTimePasswordUpdate ? getTimeSince(accountDetails!.lastTimePasswordUpdate!) + ' Ago' : 'Never' }}</span>
+        </div>
+      </div>
+      <button mat-flat-button class="action-button" (click)="updatePassword()">
+        <span class="mat-label-large">Update</span>
+      </button>
+    </div>
+    <div class="single_setting">
+      <div class="action-texts">
+        <div class="action-title">Credit</div>
+        <div class="action-subtitle">You have <span
+          class="highlighted">{{ accountDetails?.summarizationsLeft ?? 0 }}
+          Summaries{{ accountDetails?.dailySummarization ? ' + 1 Daily Free Summarization ' : '' }}</span>
+          left
+        </div>
+      </div>
+      <button mat-flat-button class="action-button"
+              matTooltip="This is a Preview version! The full version with the ability to get more summarization will be published soon :)"
+              (click)="getCredit()">
+        <span class="mat-label-large">Get More</span>
+      </button>
+    </div>
+    <div class="single_setting">
+      <div class="action-texts">
+        <div class="action-title">Delete Account</div>
+        <div class="action-subtitle">This action is irreversible!</div>
+      </div>
+      <button mat-flat-button class="action-button" id="delete" (click)="deleteAccount()">
+        <span class="mat-label-large">Delete</span>
+      </button>
+    </div>
+  </div>
+  <div class="logout-button" (click)="logout()">
+    <h4>Logout</h4>
+    <mat-icon>logout</mat-icon>
+  </div>
+</div>

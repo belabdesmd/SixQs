@@ -51,6 +51,16 @@ export class DataStorageService {
     });
   }
 
+  getAccount(id: string): Promise<Account> {
+    return new Promise((resolve, reject) => {
+      const tx = this.db.transaction(ACCOUNT_STORE, 'readonly');
+      const store = tx.objectStore(ACCOUNT_STORE);
+      const request = store.get(id);
+      request.onsuccess = () => resolve(request.result);
+      request.onerror = () => reject('Error fetching');
+    });
+  }
+
   saveArticles(articles: Article[]): Promise<void> {
     return new Promise((resolve, reject) => {
       const tx = this.db.transaction(ARTICLE_STORE, 'readwrite');
