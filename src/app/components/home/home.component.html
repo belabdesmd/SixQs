@@ -1,1 +1,25 @@
-<p>home works!</p>
+<div class="container">
+  <mat-toolbar>
+    <span class="topbar-logo">SixQs</span>
+    <span class="spacer"></span>
+    <div class="navigation-buttons">
+      <button mat-icon-button [disabled]="summarizeLoading" (click)="goAccount()">
+        <mat-icon>person</mat-icon>
+      </button>
+    </div>
+  </mat-toolbar>
+  <div class="content">
+    @if (isEmailVerified === false) {
+      <p class="text-container">
+        Check your email to verify your account and then <span class="clickable-answer" (click)="reLogin()">re-login</span>.
+      </p>
+    }
+    @if (article == null) {
+      <app-base id="base" [isLoading]="summarizeLoading" (summarizeClick)="summarizeArticle($event)"></app-base>
+      <app-history id="history" (articleClick)="fetchArticle($event)" [articles]="history"
+                   [isLoading]="historyLoading"></app-history>
+    } @else {
+      <app-summary [article]="article" (articleDismissedClick)="onArticleDismissed()"></app-summary>
+    }
+  </div>
+</div>

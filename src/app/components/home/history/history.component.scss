@@ -1,0 +1,117 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+mat-toolbar {
+  background-color: transparent;
+  padding: 0;
+  font-family: "Poppins", sans-serif;
+  font-weight: 700;
+  font-size: 2em;
+}
+
+button {
+  border-radius: 50%;
+  margin-right: 16px;
+}
+
+.article-list {
+  display: flex;
+  flex: 1;
+  overflow-y: auto;
+  flex-direction: column;
+  gap: 0.50rem;
+  text-align: center;
+  padding-bottom: 16px;
+}
+
+.date {
+  font-family: "Poppins", sans-serif;
+  font-weight: 500;
+  margin-left: 16px;
+  margin-bottom: 4px;
+  text-align: start;
+}
+
+.article-item {
+  cursor: pointer;
+  border-radius: 24px;
+  background-color: transparent;
+  margin-bottom: 8px;
+}
+
+.article-title {
+  font-family: "Poppins", sans-serif;
+  font-weight: 700;
+  text-align: start;
+}
+
+.article-subtitle {
+  text-align: start;
+  overflow: hidden;
+  font-family: "Poppins", sans-serif;
+  font-weight: 500;
+}
+
+p {
+  margin: auto;
+}
+
+.empty {
+  margin: auto;
+}
+
+.shimmer-card {
+  padding: 16px;
+  border-radius: 12px;
+  background-color: var(--mat-sys-surface-container-high);
+  overflow: hidden;
+}
+
+.shimmer-title,
+.shimmer-subtitle {
+  height: 16px;
+  background-color: var(--mat-sys-surface-container-highest);
+  border-radius: 8px;
+  margin-bottom: 8px;
+}
+
+.shimmer-title {
+  width: 70%;
+  height: 20px;
+}
+
+.shimmer-subtitle {
+  width: 50%;
+  height: 14px;
+}
+
+/* shimmer animation */
+.shimmer {
+  position: relative;
+  overflow: hidden;
+}
+
+.shimmer::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -150px;
+  height: 100%;
+  width: 150px;
+  background: linear-gradient(
+      to right,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(255, 255, 255, 0.6) 50%,
+      rgba(255, 255, 255, 0) 100%
+  );
+  animation: shimmer 1.2s infinite;
+}
+
+@keyframes shimmer {
+  100% {
+    left: 100%;
+  }
+}

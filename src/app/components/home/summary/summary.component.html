@@ -1,0 +1,70 @@
+<div class="container">
+  <div class="top-summary">
+    <a [href]="article?.url" style="color: var(--mat-sys-primary);" target="_blank"
+       class="title mat-title-medium">{{ article?.url ?? 'Error Summarizing :(' }}</a>
+    <div class="navigation-buttons">
+      <button mat-icon-button (click)="showCitations()">
+        <mat-icon>list</mat-icon>
+      </button>
+      <button mat-icon-button (click)="dismissArticle()">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+  </div>
+  @if (article?.summary && currentIndex == -1) {
+    <mat-card appearance="outlined" class="content-card">
+      <mat-card-content class="answer mat-body-large"><span>{{ article?.summary! }}</span></mat-card-content>
+    </mat-card>
+
+  } @else if (summaries.length == 0) {
+    <mat-card appearance="outlined" class="content-card">
+      <mat-card-header>
+        <mat-card-title class="question mat-headline-large">ERROR!</mat-card-title>
+      </mat-card-header>
+      <mat-card-content class="answer mat-body-large"><span>Error summarizing the Article</span>
+      </mat-card-content>
+    </mat-card>
+  } @else {
+    <mat-card appearance="outlined" class="content-card">
+      <mat-card-header>
+        <mat-card-title class="question mat-headline-large">{{ summaries[currentIndex].question }}
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content class="answer mat-body-large">
+        @if (isArray(summaries[currentIndex].answer)) {
+          <p>
+            @for (word of summaries[currentIndex].answer; track word.id) {
+              <ng-container>
+                <span class="clickable-answer" (click)="onDefinitionClick(word)">{{ word }}</span>
+                @if ($index !== summaries[currentIndex].answer.length - 1) {
+                  <span>, </span>
+                }
+              </ng-container>
+            }
+          </p>
+        } @else {
+          <span>{{ summaries[currentIndex].answer }}</span>
+        }
+      </mat-card-content>
+    </mat-card>
+  }
+  @if (summaries.length > 0) {
+    <div class="scroll-container">
+      <div class="indicators">
+        @for (item of summaries; track item.id) {
+          <span [class.active]="$index === currentIndex">•</span>
+        }
+      </div>
+      <div class="navigation-buttons">
+        <button mat-icon-button (click)="goToPrevious()"
+                [disabled]="summaries.length == 0 || (currentIndex === -1 && article?.summary) || (currentIndex === 0 && !article?.summary)">
+          <mat-icon>chevron_left</mat-icon>
+        </button>
+        <button mat-icon-button (click)="goToNext()"
+                [disabled]="summaries.length == 0 || currentIndex === summaries.length - 1">
+          <mat-icon>chevron_right</mat-icon>
+        </button>
+      </div>
+    </div>
+  }
+</div>

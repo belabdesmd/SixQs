@@ -1,0 +1,34 @@
+.dialog-container {
+  display: flex;
+  flex-direction: column;
+  flex-flow: wrap;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+h2 {
+  text-align: center;
+}
+
+mat-dialog-actions {
+  display: flex;
+  align-self: center;
+}
+
+.citation-holder {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-bottom: 4px;
+}
+
+a {
+  color: var(--mat-sys-primary);
+  text-decoration: underline;
+}
+
+span {
+  margin-right: 5px;
+  font-weight: bold;
+}

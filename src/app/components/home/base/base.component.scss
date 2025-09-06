@@ -1,0 +1,38 @@
+.prompt {
+  margin-top: 48px;
+  width: 100%;
+  justify-self: center;
+  word-break: break-word;
+}
+
+.prompt span {
+  display: block;
+  font-family: "Poppins", sans-serif;
+  font-weight: 700;
+}
+
+mat-form-field {
+  width: 100%;
+  margin: 0 16px 16px 16px;
+}
+
+:host ::ng-deep .mdc-text-field--outlined {
+  --mdc-outlined-text-field-container-shape: 28px;
+}
+
+.url {
+  color: var(--mat-sys-inverse-surface);
+}
+
+.summarize {
+  display: inline-flex;
+  align-self: center;
+  margin-bottom: 16px;
+  padding-top: 38px;
+  padding-bottom: 38px;
+}
+
+.summarize span {
+  font-family: "Poppins", sans-serif;
+  font-weight: 700;
+}

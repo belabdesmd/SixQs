@@ -96,4 +96,7 @@ export class AuthService {
     return;
   }
 
+  async getUserId() {
+    return this.auth.currentUser?.uid!
+  }
 }

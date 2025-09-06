@@ -1,0 +1,26 @@
+<div class="container">
+  <mat-toolbar>History</mat-toolbar>
+  <div class="article-list">
+    @if (isLoading) {
+      @for (item of placeholders; track item) {
+        <div class="shimmer-card">
+          <div class="shimmer-title shimmer"></div>
+          <div class="shimmer-subtitle shimmer"></div>
+        </div>
+      }
+    } @else {
+      @if (empty) {
+        <img class="empty" ngSrc="assets/empty.gif" alt="empty" height="196" width="196"/>
+      }
+      @for (key of sortedKeys; track key) {
+        <div>
+          <p class="date mat-title-medium">{{ key }}</p>
+          @for (article of groupedArticles[key]; track article.articleId) {
+            <mat-card appearance="outlined" class="article-item" (click)="goArticle(article.articleId)">
+            </mat-card>
+          }
+        </div>
+      }
+    }
+  </div>
+</div>

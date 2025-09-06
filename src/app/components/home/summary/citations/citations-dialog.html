@@ -1,0 +1,12 @@
+<h2 mat-dialog-title>Citations</h2>
+<mat-dialog-content class="dialog-container">
+  @for (citation of citations; track citation) {
+    <div class="citation-holder">
+      <span>[{{ $index + 1 }}]</span>
+      <a [href]="citation" target="_blank" class="mat-body-large">{{ citation }}</a>
+    </div>
+  }
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-flat-button (click)="closeDialog()">Got It!</button>
+</mat-dialog-actions>

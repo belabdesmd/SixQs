@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { Wikipedia } from './wikipedia';
+import { WikipediaService } from './wikipedia.service';
 
 describe('Wikipedia', () => {
-  let service: Wikipedia;
+  let service: WikipediaService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(Wikipedia);
+    service = TestBed.inject(WikipediaService);
   });
 
   it('should be created', () => {

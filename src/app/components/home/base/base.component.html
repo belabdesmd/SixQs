@@ -1,0 +1,19 @@
+<form [formGroup]="urlForm!!" (ngSubmit)="onSubmit()">
+  <div class="prompt">
+    <span class="mat-display-small">Copy/Paste News Article URL Link<br>to summarize it</span>
+    <mat-form-field subscriptSizing="dynamic" appearance="outline">
+      <mat-label>Article URL</mat-label>
+      <input matInput type="text" formControlName="url" class="mat-body-medium" placeholder="Enter the News Article URL" required/>
+    </mat-form-field>
+  </div>
+  <br/>
+  <!-- Scan/Summarize Button -->
+  <button class="summarize" mat-flat-button [disabled]="isLoading || !urlForm?.valid" type="submit">
+    @if (isLoading) {
+      <mat-spinner [diameter]="24" [color]="'#111413'"></mat-spinner>
+    }
+    @if (!isLoading) {
+      <span class="mat-title-large">Summarize</span>
+    }
+  </button>
+</form>

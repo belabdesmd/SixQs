@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {Account, Article} from '../utils/types';
+import {Account, Article, ArticleHead} from '../utils/types';
 
 const DB_NAME = 'SixQs.DB';
 const DB_VERSION = 1;
@@ -69,6 +69,53 @@ export class DataStorageService {
       }
       tx.oncomplete = () => resolve();
       tx.onerror = () => reject('Error saving data');
+    });
+  }
+
+  getArticles(userId: string): Promise<ArticleHead[] | null> {
+    return new Promise((resolve, reject) => {
+      const tx = this.db.transaction(ARTICLE_HEAD_STORE, 'readonly');
+      const store = tx.objectStore(ARTICLE_HEAD_STORE);
+      const request = store.getAll();
+
+      request.onsuccess = () => {
+        resolve(request.result.filter((articleHead: ArticleHead) =>  articleHead.summarizerIds.includes(userId)));
+      }
+      request.onerror = () => reject('Failed to fetch articles');
+    });
+  }
+
+  articleWithUrlExists(url: string): Promise<boolean> {
+    return new Promise((resolve, reject) => {
+      const tx = this.db.transaction(ARTICLE_STORE, 'readonly');
+      const store = tx.objectStore(ARTICLE_STORE);
+      const index = store.index('url');
+      const request = index.count(url);
+      request.onsuccess = () => {
+        resolve(request.result > 0);
+      }
+      request.onerror = () => reject('Error getting data');
+    });
+  }
+
+  getArticleByUrl(url: string): Promise<Article | undefined> {
+    return new Promise((resolve, reject) => {
+      const tx = this.db.transaction(ARTICLE_STORE, 'readonly');
+      const store = tx.objectStore(ARTICLE_STORE);
+      const index = store.index('url');
+      const request = index.get(url);
+      request.onsuccess = () => resolve(request.result);
+      request.onerror = () => reject('Error getting data');
+    });
+  }
+
+  getArticleById(id: string): Promise<Article> {
+    return new Promise((resolve, reject) => {
+      const tx = this.db.transaction(ARTICLE_STORE, 'readonly');
+      const store = tx.objectStore(ARTICLE_STORE);
+      const request = store.get(id);
+      request.onsuccess = () => resolve(request.result);
+      request.onerror = () => reject('Error fetching');
     });
   }
 
