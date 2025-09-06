@@ -1,5 +1,5 @@
 .prompt {
-  margin-top: 48px;
+  margin-top: 64px;
   width: 100%;
   justify-self: center;
   word-break: break-word;
@@ -12,7 +12,7 @@
 }
 
 mat-form-field {
-  width: 100%;
+  width: 70%;
   margin: 0 16px 16px 16px;
 }
 
@@ -28,8 +28,8 @@ mat-form-field {
   display: inline-flex;
   align-self: center;
   margin-bottom: 16px;
-  padding-top: 38px;
-  padding-bottom: 38px;
+  padding-top: 32px;
+  padding-bottom: 32px;
 }
 
 .summarize span {

@@ -3,6 +3,7 @@ import {z} from "genkit";
 export type UserDetails = { summarizationsLeft: number }
 
 export const SummarySchema = z.object({
+  title: z.string().describe("Retrieved title of the article"),
   summary: z.string(),
   detailed_summary: z.object({
     who: z.array(z.string()).optional().describe("Identify the key people, organizations, or entities involved in \"what\" happened."),
@@ -18,6 +19,7 @@ export type Summary = z.infer<typeof SummarySchema>;
 export const ArticleSchema = z.object({
   articleId: z.string().optional(),
   url: z.string(),
+  title: z.string(),
   summarizerIds: z.array(z.string()),
   created_at: z.string(),
 }).merge(SummarySchema);

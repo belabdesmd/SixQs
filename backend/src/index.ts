@@ -1,6 +1,6 @@
-import { genkit, z } from 'genkit';
-import { googleAI } from '@genkit-ai/google-genai';
-import { startFlowServer } from '@genkit-ai/express';
+import {genkit, z} from 'genkit';
+import {googleAI} from '@genkit-ai/google-genai';
+import {startFlowServer} from '@genkit-ai/express';
 import {Article, ArticleSchema, Summary, SummarySchema} from './types';
 import {
   addArticle,
@@ -21,7 +21,7 @@ const firestore = getFirestore(app);
 // ----------------------------------------- Configurations
 configDotenv()
 const ai = genkit({
-  plugins: [googleAI()],
+  plugins: [googleAI({apiKey: process.env.GEMINI_API_KEY})],
   model: googleAI.model('gemini-2.5-flash'),
 });
 
@@ -67,6 +67,8 @@ If the domain **is** a recognized news source, continue:
 - **Why:** One sentence explaining the reason
 - **How:** One sentence explaining the process or method
 
+5. Also retrieve the title of the article.
+
 Leave any answer blank if no relevant information is found. Do not explain or add any other information.
 `
 );
@@ -97,12 +99,12 @@ const summarizeArticleFlow = ai.defineFlow(
     const summary: Summary | { error: string } = response.output!;
 
     // ------------------------ Prepare and Save Article
-    if ("error" in summary) {
-      return {error: summary.error};
-    } else {
+    if ("error" in summary) return {error: summary.error};
+    else {
       const article: Article = {
         summarizerIds: [input.userId],
         url: input.url,
+        title: summary.title,
         summary: summary.summary,
         detailed_summary: summary.detailed_summary,
         created_at: new Date().toDateString(),
@@ -120,4 +122,4 @@ const summarizeArticleFlow = ai.defineFlow(
   },
 );
 
-startFlowServer({flows: [summarizeArticleFlow]});
+startFlowServer({flows: [summarizeArticleFlow], cors: {origin: "https://sixqs.belfodil.me"}});

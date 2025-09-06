@@ -1,5 +1,6 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {Account, Article, ArticleHead} from '../utils/types';
+import {BehaviorSubject, filter, Observable, take} from 'rxjs';
 
 const DB_NAME = 'SixQs.DB';
 const DB_VERSION = 1;
@@ -13,6 +14,7 @@ const ARTICLE_HEAD_STORE = 'articles_head';
 })
 export class DataStorageService {
   private db!: IDBDatabase;
+  private ready$ = new BehaviorSubject<boolean>(false);
 
   constructor() {
     this.initDB();
@@ -35,10 +37,18 @@ export class DataStorageService {
     };
     request.onsuccess = () => {
       this.db = request.result;
+      this.ready$.next(true);
     };
     request.onerror = () => {
       console.error('IndexedDB error');
     };
+  }
+
+  whenReady(): Observable<boolean> {
+    return this.ready$.asObservable().pipe(
+      filter(ready => ready), // only emit when true
+      take(1)
+    );
   }
 
   saveAccount(account: Account | undefined): Promise<void> {
@@ -89,7 +99,7 @@ export class DataStorageService {
       const request = store.getAll();
 
       request.onsuccess = () => {
-        resolve(request.result.filter((articleHead: ArticleHead) =>  articleHead.summarizerIds.includes(userId)));
+        resolve(request.result.filter((articleHead: ArticleHead) => articleHead.summarizerIds.includes(userId)));
       }
       request.onerror = () => reject('Failed to fetch articles');
     });

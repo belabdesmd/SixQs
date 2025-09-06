@@ -10,7 +10,7 @@
   </div>
   @if (article?.summary && currentIndex == -1) {
     <mat-card appearance="outlined" class="content-card">
-      <mat-card-content class="answer mat-body-large"><span>{{ article?.summary! }}</span></mat-card-content>
+      <mat-card-content class="answer mat-title-medium"><span>{{ article?.summary! }}</span></mat-card-content>
     </mat-card>
 
   } @else if (summaries.length == 0) {
@@ -27,7 +27,7 @@
         <mat-card-title class="question mat-headline-large">{{ summaries[currentIndex].question }}
         </mat-card-title>
       </mat-card-header>
-      <mat-card-content class="answer mat-body-large">
+      <mat-card-content class="answer mat-title-large">
         @if (isArray(summaries[currentIndex].answer)) {
           <p>
             @for (word of summaries[currentIndex].answer; track word.id) {

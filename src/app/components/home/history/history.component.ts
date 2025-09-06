@@ -43,6 +43,7 @@ export class HistoryComponent implements OnChanges {
     this.groupedArticles = this.groupByDate(this.articles ?? []);
     this.empty = (this.articles?.length ?? 0) === 0;
     if (!this.empty) this.sortedKeys = Object.keys(this.groupedArticles).sort((a, b) => b.localeCompare(a));
+    console.log(this.groupedArticles["06 September 2025"])
   }
 
   groupByDate(items: ArticleHead[]): { [key: string]: ArticleHead[] } {

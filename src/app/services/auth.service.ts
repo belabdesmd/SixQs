@@ -33,7 +33,7 @@ export class AuthService {
 
     try {
       let userCreds = await createUserWithEmailAndPassword(this.auth, email, password);
-      await setDoc(doc(this.db, "users", userCreds.user.uid), {summarizationsLeft: 3, dailySummarization: true});
+      await setDoc(doc(this.db, "users", userCreds.user.uid), {summarizationsLeft: 5});
       await sendEmailVerification(userCreds.user);
       await this.dataStorageService.saveAccount({
         userId: userCreds.user.uid,

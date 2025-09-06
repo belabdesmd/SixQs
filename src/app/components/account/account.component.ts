@@ -1,4 +1,4 @@
-import {Component, inject, NgZone, OnInit} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {MatButton, MatMiniFabButton} from '@angular/material/button';
 import {Router} from "@angular/router";
 import {MatToolbar} from "@angular/material/toolbar";
@@ -33,11 +33,11 @@ export class AccountComponent implements OnInit {
   //Dialog
   readonly dialog = inject(MatDialog);
 
-  constructor(private router: Router, private authService: AuthService, private dataStorageService: DataStorageService, private zone: NgZone) {
+  constructor(private router: Router, private authService: AuthService, private dataStorageService: DataStorageService) {
   }
 
   async ngOnInit(): Promise<void> {
-    await this.zone.run(async () => {
+    this.dataStorageService.whenReady().subscribe(async () => {
       this.dataStorageService.getAccount((await this.authService.getUserId())).then(details => {
         this.accountDetails = details;
       });
@@ -68,7 +68,7 @@ export class AccountComponent implements OnInit {
   }
 
   async goBack() {
-    await this.router.navigate(['/home']);
+    await this.router.navigate(['/']);
   }
 
   updatePassword() {

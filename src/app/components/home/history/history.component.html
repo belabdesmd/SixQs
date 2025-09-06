@@ -15,8 +15,9 @@
       @for (key of sortedKeys; track key) {
         <div>
           <p class="date mat-title-medium">{{ key }}</p>
-          @for (article of groupedArticles[key]; track article.articleId) {
+          @for (article of groupedArticles[key]; track article) {
             <mat-card appearance="outlined" class="article-item" (click)="goArticle(article.articleId)">
+              <mat-card-content class="article-title mat-title-medium">{{ article.title }}</mat-card-content>
             </mat-card>
           }
         </div>

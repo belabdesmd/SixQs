@@ -14,6 +14,10 @@
   @include mat.theme((color: (primary: theme-colors.$primary-palette), typography: Roboto, density: 0,));
 }
 
+@include mat.form-field-overrides((
+  outlined-container-shape: 28px, // border radius
+));
+
 html,
 body {
   height: 100%;

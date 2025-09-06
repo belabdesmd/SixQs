@@ -46,9 +46,11 @@ export class HomeComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     // get history
-    this.dataStorageService.getArticles(await this.authService.getUserId()).then(articles => {
-      if (articles) this.history = articles;
-      this.historyLoading = false;
+    this.dataStorageService.whenReady().subscribe(async () => {
+      this.dataStorageService.getArticles(await this.authService.getUserId()).then(articles => {
+        if (articles) this.history = articles;
+        this.historyLoading = false;
+      });
     });
   }
 
@@ -57,7 +59,17 @@ export class HomeComponent implements OnInit {
     this.summarizerService.getArticle(url).then((response) => {
       this.summarizeLoading = false;
       if (response.error != null) this._snackBar.open(response.error);
-      else this.article = response.article
+      else {
+        this.article = response.article;
+        const articleHead = {
+          articleId: this.article!.articleId,
+          url: this.article!.url,
+          title: this.article!.title,
+          created_at: this.article!.created_at,
+          summarizerIds: this.article!.summarizerIds,
+        }
+        if (this.history) this.history.push(articleHead); else this.history = [articleHead];
+      }
     });
   }
 

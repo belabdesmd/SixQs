@@ -1,0 +1,80 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.top-summary {
+  display: flex;
+  flex-direction: row;
+}
+
+.title {
+  font-family: "Poppins", sans-serif;
+  font-weight: 500;
+  margin: 8px 0;
+  width: 90%;
+  flex: 1;
+  text-align: start;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.content-card {
+  height: 444px;
+  background-color: transparent;
+  width: 100%;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.question {
+  font-family: "Protest Guerrilla", sans-serif;
+  font-size: 32px;
+}
+
+.answer {
+  font-family: "Poppins", sans-serif;
+  font-weight: 500;
+  overflow-y: auto;
+  margin: auto;
+  padding: 0 16px;
+}
+
+.clickable-answer {
+  cursor: pointer;
+  text-decoration: underline;
+  transition: color 0.3s;
+}
+
+.scroll-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.indicators {
+  display: flex;
+  gap: 10px;
+}
+
+.indicators span {
+  font-size: 24px;
+  color: var(--mdc-elevated-card-container-color);
+}
+
+.indicators .active {
+  color: var(--mat-sys-secondary);
+}
+
+.navigation-buttons {
+  display: flex;
+}
+
+button[disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

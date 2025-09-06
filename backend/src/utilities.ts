@@ -9,8 +9,7 @@ export async function getSummarizationSettings(firestore: Firestore, userId: str
 
 export async function updateSummarizationSettings(firestore: Firestore, userId: string, userDetails: UserDetails) {
   firestore.collection("users").doc(userId).update({
-    dailySummarization: false,
-    summarizationsLeft: userDetails.summarizationsLeft,
+    summarizationsLeft: userDetails.summarizationsLeft - 1,
   });
 }
 
