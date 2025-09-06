@@ -78,10 +78,10 @@ const summarizeArticleFlow = ai.defineFlow(
     inputSchema: z.object({userId: z.string(), url: z.string()}),
     outputSchema: ArticleSchema.or(z.object({error: z.string()})),
   },
-  async (input, {context}) => {
+  async (input) => {
     // Check if there's summarization allowed
     const userDetails = await getSummarizationSettings(firestore, input.userId);
-    if (!userDetails.dailySummarization && userDetails.summarizationsLeft == 0) {
+    if (userDetails.summarizationsLeft == 0) {
       return {error: "You have reached your limit of summarizations. Please get new credits to continue."};
     }
 
@@ -105,7 +105,6 @@ const summarizeArticleFlow = ai.defineFlow(
         url: input.url,
         summary: summary.summary,
         detailed_summary: summary.detailed_summary,
-        citations: [], //TODO: handle citations
         created_at: new Date().toDateString(),
       };
 

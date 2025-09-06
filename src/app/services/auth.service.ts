@@ -37,8 +37,7 @@ export class AuthService {
       await sendEmailVerification(userCreds.user);
       await this.dataStorageService.saveAccount({
         userId: userCreds.user.uid,
-        dailySummarization: true,
-        summarizationsLeft: 3
+        summarizationsLeft: 5
       });
       return {authenticated: true}
     } catch (e: any) {

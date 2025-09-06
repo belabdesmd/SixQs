@@ -3,9 +3,6 @@
     <a [href]="article?.url" style="color: var(--mat-sys-primary);" target="_blank"
        class="title mat-title-medium">{{ article?.url ?? 'Error Summarizing :(' }}</a>
     <div class="navigation-buttons">
-      <button mat-icon-button (click)="showCitations()">
-        <mat-icon>list</mat-icon>
-      </button>
       <button mat-icon-button (click)="dismissArticle()">
         <mat-icon>close</mat-icon>
       </button>

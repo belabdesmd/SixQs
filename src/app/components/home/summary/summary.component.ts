@@ -7,7 +7,6 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {ReactiveFormsModule} from '@angular/forms';
 import {MatInputModule} from '@angular/material/input';
-import {CitationsDialog} from "./citations/citations-dialog";
 import {MatDialog} from "@angular/material/dialog";
 import {DetailsDialog} from "./details/details-dialog";
 import {Article, DetailedSummary} from '../../../utils/types';
@@ -57,10 +56,6 @@ export class SummaryComponent implements OnChanges {
         answer: value
       }; else return null;
     }).filter(item => item !== null);
-  }
-
-  showCitations() {
-    this.dialog.open(CitationsDialog, {data: this.article?.citations!});
   }
 
   dismissArticle() {

@@ -1,9 +1,6 @@
 import {z} from "genkit";
 
-export type UserDetails = {
-  summarizationsLeft: number,
-  dailySummarization: boolean
-}
+export type UserDetails = { summarizationsLeft: number }
 
 export const SummarySchema = z.object({
   summary: z.string(),
@@ -23,6 +20,5 @@ export const ArticleSchema = z.object({
   url: z.string(),
   summarizerIds: z.array(z.string()),
   created_at: z.string(),
-  citations: z.array(z.string()),
 }).merge(SummarySchema);
 export type Article = z.infer<typeof ArticleSchema>;

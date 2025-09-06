@@ -1,7 +1,6 @@
 export type Account = {
   userId: String,
   summarizationsLeft: number;
-  dailySummarization: boolean;
   lastTimePasswordUpdate?: Date;
 }
 
@@ -21,7 +20,6 @@ export type Article = {
   summary: string;
   summarizerIds: string[];
   detailed_summary: DetailedSummary;
-  citations: string[];
   created_at: string;
 }
 

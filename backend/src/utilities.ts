@@ -4,13 +4,13 @@ import Firestore = firestore.Firestore;
 
 export async function getSummarizationSettings(firestore: Firestore, userId: string): Promise<UserDetails> {
   const userDetails = (await firestore.collection("users").doc(userId).get()).data()!;
-  return {summarizationsLeft: userDetails.summarizationsLeft, dailySummarization: userDetails.dailySummarization};
+  return {summarizationsLeft: userDetails.summarizationsLeft};
 }
 
 export async function updateSummarizationSettings(firestore: Firestore, userId: string, userDetails: UserDetails) {
   firestore.collection("users").doc(userId).update({
     dailySummarization: false,
-    summarizationsLeft: userDetails.dailySummarization ? userDetails.summarizationsLeft : userDetails.summarizationsLeft - 1,
+    summarizationsLeft: userDetails.summarizationsLeft,
   });
 }
 
