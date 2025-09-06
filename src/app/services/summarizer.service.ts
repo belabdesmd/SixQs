@@ -1,13 +1,15 @@
 import {Injectable} from '@angular/core';
 import {DataStorageService} from './data-storage.service';
 import {Article} from '../utils/types';
+import {HttpClient} from '@angular/common/http';
+import {AuthService} from './auth.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SummarizerService {
 
-  constructor(private dataStorageService: DataStorageService) {
+  constructor(private authService: AuthService, private http: HttpClient, private dataStorageService: DataStorageService) {
   }
 
   async getArticle(url: string): Promise<{error?: string, article?: Article}> {
@@ -26,13 +28,23 @@ export class SummarizerService {
   }
 
   private async summarizeArticle(url: string): Promise<{error?: string, article?: Article}> {
-    // TODO: properly fetch article
-    const response: {error?: string, article?: Article} = {error: "this is an error"}
-    if (response.error) return {error: response.error};
-    else {
-      await this.dataStorageService.saveArticles([response.article!]);
-      return {article: response.article}
-    }
+    return new Promise((resolve) => {
+      // TODO: Use proper URL (deployed one)
+      this.http.post('http://127.0.0.1:3400/helloFlow', {userId: this.authService.getUserId(), url: url}, {
+        headers: {"Content-Type": "application/json"}
+      }).subscribe({
+        next: async (response: any) => {
+          if (response.error) resolve({error: response.error});
+          else {
+            await this.dataStorageService.saveArticles([response.article!]);
+            resolve({article: response.article})
+          }
+        },
+        error: (error: any) => {
+          resolve({error: error.message});
+        },
+      });
+    })
   }
 
 }
